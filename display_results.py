@@ -9,10 +9,7 @@ from urllib.error import URLError
 
 @st.cache
 def get_ranking_data(dataset):
-    df = pd.read_csv(f"data/outputs/{dataset}_all_rankings.csv")
-    df2 = pd.read_csv(f"data/outputs/{dataset}_rerankings.csv")
-    df2['model_name'] = 'aggregate'
-    df = pd.concat([df, df2], axis=0)
+    df = pd.read_csv(f"data/outputs/{dataset}_sample_rankings.csv")
     return df
 
 try:
@@ -25,7 +22,7 @@ try:
     probes = df.probe_id.unique()
 
     document_id = st.selectbox(
-        "Choose document", df[['probe_title', 'probe_id']], 4
+        "Choose document", df['probe_title'].unique(), 78
     )
 
     if not document_id:
