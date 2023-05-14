@@ -6,9 +6,13 @@ import retrieve_documents
 def main():
     df = pd.read_csv("data/transformed/sfn_2015.csv")
 
+    # Tune for only 100 abstracts.
+    targets = np.argsort(np.random.rand(df.shape[0]))[:100]
+    df = df.iloc[targets]
+
     tops = []
     for vectorizer in ['entropy', 'bm25', 'count', 'tfidf']:
-        for n_components in [18, 30, 50, 85, 150, 250, 425, 725]:
+        for n_components in [5, 7, 9, 11, 13, 15, 18, 30, 50, 85, 99]:
             paper_texts = df.text.values
             # We use the TF-IDF encoder that was pioneered by Neuromatch
             encodings = neuromatch.compute_embeddings(
@@ -28,7 +32,7 @@ def main():
 
             tops.append(top)
         
-    pd.DataFrame(tops).to_csv(f'neuromatch_tuning.csv')
+    pd.DataFrame(tops).to_csv(f'small_neuromatch_tuning.csv')
 
 if __name__ == "__main__":
     main()

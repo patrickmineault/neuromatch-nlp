@@ -1,0 +1,6 @@
+.DS_Store
+*.pyc
+retired
+data/raw
+data/transformed
+data/outputs
